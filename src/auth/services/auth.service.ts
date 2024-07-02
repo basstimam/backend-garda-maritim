@@ -1,10 +1,11 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { PrismaService } from 'src/common/prisma.service';
-import { AuthLoginRequest, AuthLoginResponse, AuthRegisterRequest, AuthRegisterResponse } from './auth.model';
+import { AuthLoginRequest, AuthLoginResponse, AuthRegisterRequest, AuthRegisterResponse } from '../models/auth.model';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { v4 as uuidv4} from 'uuid';
+import { Role } from '@prisma/client';
 
 
 
@@ -40,7 +41,8 @@ export class AuthService {
         return {
             token: this.jwtService.sign({
                 id: user.id,
-                email: user.email
+                email: user.email,
+                role : user.role
             }),
             user
                 
@@ -81,7 +83,8 @@ export class AuthService {
         return {
             token: this.jwtService.sign({
                 id: user.id,
-                email: user.email
+                email: user.email,
+                role : user.role
             }),
             user
         }
